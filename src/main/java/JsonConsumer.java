@@ -82,7 +82,7 @@ public class JsonConsumer {
 
                             }
                             try{
-                                longitude=coordinates.get("latitude").toString();;
+                                longitude=coordinates.get("longitude").toString();;
                             } catch(Exception ex){
                                 longitude="null";
                             }
