@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class JsonConsumer {
-    public static String KAFKA_HOST = "localhost:9092";
+
     public static String TOPIC = "like";
     private static final AtomicBoolean closed = new AtomicBoolean(false);
     public static ArrayList<Map<String, Map<String, Object>>> picsReceived = new ArrayList<Map<String, Map<String, Object>>>();
@@ -27,6 +27,8 @@ public class JsonConsumer {
     public static String longitude;
 
     public static void main(String[] args) {
+        String KAFKA_HOST = args[0];
+        String token=args[1];
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
@@ -55,7 +57,7 @@ public class JsonConsumer {
                 if (!idsComputed.contains(id)) {
 
                     idsComputed.add(id);
-                    String stringUrl = "https://api.instagram.com/v1/users/" + id + "/media/recent/?access_token=235583922.e029fea.8f0b40ca9ab9430d8544a5b67aa0bc2d";
+                    String stringUrl = "https://api.instagram.com/v1/users/" + id + "/media/recent/?access_token="+token;
 
                     try {
 
