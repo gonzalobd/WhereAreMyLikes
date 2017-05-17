@@ -1,5 +1,5 @@
-.gitignore
-target/
-WhereAreMyLikes.iml
+/.gitignore
+/target/
+/WhereAreMyLikes.iml
 .idea/
-src/main/java/out_que_vale.csv
+/src/main/java/out_que_vale.csv
