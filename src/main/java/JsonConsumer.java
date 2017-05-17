@@ -23,6 +23,8 @@ public class JsonConsumer {
     public static ArrayList<Map<String, Map<String, Object>>> picsReceived = new ArrayList<Map<String, Map<String, Object>>>();
     public static String newline = System.getProperty("line.separator");
     public static ArrayList<String> idsComputed = new ArrayList<>();
+    public static String latitude;
+    public static String longitude;
 
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -73,20 +75,39 @@ public class JsonConsumer {
 
                             Map<String, Object> coordinates = new HashMap<String, Object>();
                             coordinates = pic.get("location");
-
-                            if (coordinates != null) {
-
-                                System.out.println(coordinates.get("latitude") + "," + coordinates.get("longitude"));
-
-                                try {
-                                    Files.write(Paths.get("/home/hadoop/IdeaProjects/WhereAreMyLikes/src/main/java/out.csv"),
-                                            (coordinates.get("latitude") + "," + coordinates.get("longitude") + newline).
-                                                    toString().getBytes(), StandardOpenOption.APPEND);
-                                } catch (IOException e) {
-                                    //exception handling left as an exercise for the reader
-                                }
+                            try{
+                                latitude=coordinates.get("latitude").toString();
+                            } catch(Exception ex){
+                                latitude="null";
 
                             }
+                            try{
+                                longitude=coordinates.get("latitude").toString();;
+                            } catch(Exception ex){
+                                longitude="null";
+                            }
+
+
+                            if (coordinates != null && !latitude.equals("null") && !longitude.equals("null")){
+
+
+                                    if ((-90 < Double.parseDouble(String.valueOf(latitude))) &&
+                                    (90 > Double.parseDouble(String.valueOf(latitude))) &&
+                                    (-180 < Double.parseDouble(String.valueOf(longitude))) &&
+                                    (180 > Double.parseDouble(String.valueOf(longitude)))) {
+
+                                        System.out.println(latitude + "," + longitude);
+
+                                        try {
+                                            Files.write(Paths.get("/home/hadoop/IdeaProjects/WhereAreMyLikes/src/main/java/out.csv"),
+                                                    (latitude + "," + longitude + newline).
+                                                            toString().getBytes(), StandardOpenOption.APPEND);
+                                        } catch (IOException e) {
+                                            //exception handling left as an exercise for the reader
+                                        }
+
+                            }
+                        }
 
 
                         }
