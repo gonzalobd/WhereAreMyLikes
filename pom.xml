@@ -32,7 +32,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass></mainClass>
+                            <mainClass>JsonConsumer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
