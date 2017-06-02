@@ -21,10 +21,11 @@ public class MainClass {
     public static String TOPIC = "like";
     private static final AtomicBoolean closed = new AtomicBoolean(false);
     public static ArrayList<Map<String, Map<String, Object>>> picsReceived = new ArrayList<Map<String, Map<String, Object>>>();
+    public static ArrayList<Map<String,Object>> coordinatesSent = new ArrayList<Map<String,Object>>();
     public static String newline = System.getProperty("line.separator");
-    public static ArrayList<String> idsComputed = new ArrayList<>();
     public static String latitude;
     public static String longitude;
+
 
     public static void main(String[] args) {
         String KAFKA_HOST = args[0];
@@ -48,16 +49,11 @@ public class MainClass {
         KafkaConsumer<String, Map<String, Object>> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Collections.singletonList(TOPIC));
 
-        idsComputed.add(" ");
         while (!closed.get()) {
             ConsumerRecords<String, Map<String, Object>> records = consumer.poll(100);
             for (ConsumerRecord<String, Map<String, Object>> record : records) {
                 String id = record.value().get("id").toString();
-
-                if (!idsComputed.contains(id)) {
-
-                    idsComputed.add(id);
-                    String stringUrl = "https://api.instagram.com/v1/users/" + id + "/media/recent/?access_token="+token;
+                String stringUrl = "https://api.instagram.com/v1/users/" + id + "/media/recent/?access_token="+token;
 
                     try {
 
@@ -98,15 +94,28 @@ public class MainClass {
                                     (-180 < Double.parseDouble(String.valueOf(longitude))) &&
                                     (180 > Double.parseDouble(String.valueOf(longitude)))) {
 
-                                        System.out.println(latitude + "," + longitude);
+                                        Map<String,Object> coordinateToSave =new HashMap<String,Object>();
+                                        coordinateToSave.put("id",id);
+                                        coordinateToSave.put("latitude",latitude);
+                                        coordinateToSave.put("longitude",longitude);
 
-                                        try {
-                                            Files.write(Paths.get("/home/hadoop/IdeaProjects/WhereAreMyLikes/src/main/java/out.csv"),
-                                                    (latitude + "," + longitude + newline).
-                                                            toString().getBytes(), StandardOpenOption.APPEND);
-                                        } catch (IOException e) {
-                                            //exception handling left as an exercise for the reader
-                                        }
+                                        if (!coordinatesSent.contains(coordinateToSave)){
+
+                                                try {
+                                                    Files.write(Paths.get("/home/gbautista/IdeaProjects/wherearemylikes/src/main/java/out.csv"),
+                                                            (latitude + "," + longitude + newline).
+                                                                    toString().getBytes(), StandardOpenOption.APPEND);
+                                                    System.out.println("Coordinate sent: "+latitude + "," + longitude);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                coordinatesSent.add(coordinateToSave);
+
+
+
+                                            }
+
+
 
                             }
                         }
@@ -115,11 +124,11 @@ public class MainClass {
                         }
 
                     } catch (IOException e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                     }
 
 
-                }
+
             }
         }
         consumer.close();
