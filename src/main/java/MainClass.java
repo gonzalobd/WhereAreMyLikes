@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class JsonConsumer {
+public class MainClass {
 
     public static String TOPIC = "like";
     private static final AtomicBoolean closed = new AtomicBoolean(false);
