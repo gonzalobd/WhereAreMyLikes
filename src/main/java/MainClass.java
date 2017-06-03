@@ -116,7 +116,8 @@ public class MainClass {
                                         if (!coordinatesSent.contains(coordinateToSave)){
 
                                                 try {
-                                                    Files.write(Paths.get("/home/gbautista/IdeaProjects/wherearemylikes/src/main/java/out.csv"),
+                                                    //Esto deberia ser un path de HDFS
+                                                    Files.write(Paths.get("/home/hadoop/IdeaProjects/WhereAreMyLikes/src/main/java/out.csv"),
                                                             (latitude + "," + longitude + newline).
                                                                     toString().getBytes(), StandardOpenOption.APPEND);
                                                     System.out.println("Coordinate sent: "+latitude + "," + longitude);
