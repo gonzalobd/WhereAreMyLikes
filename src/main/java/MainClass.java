@@ -138,21 +138,24 @@ public class MainClass {
                         //e.printStackTrace();
                     }
 
+                try {
+                    Thread.sleep(10000);//hay que dosificar las peticiones, instagram nos permite 5000/hora
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                     //Como lo de guardar el estado es para produccion, comento esto:
-            }
-            /**
-             try {
-             output = new Output(new FileOutputStream("hdfs://path-in-hdfs/coordinatesSent.bin"));
-             } catch (FileNotFoundException e) {
-             e.printStackTrace();
-             }
-             kryo.writeObject(output, coordinatesSent);
-             output.close();
-             */
-            try {
-                Thread.sleep(10000);//hay que dosificar las peticiones, instagram nos permite 5000/hora
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+                /**
+                 try {
+                 output = new Output(new FileOutputStream("hdfs://path-in-hdfs/coordinatesSent.bin"));
+                 } catch (FileNotFoundException e) {
+                 e.printStackTrace();
+                 }
+                 kryo.writeObject(output, coordinatesSent);
+                 output.close();
+                 */
+
             }
         }
         consumer.close();
