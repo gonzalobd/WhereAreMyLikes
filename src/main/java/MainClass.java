@@ -120,7 +120,7 @@ public class MainClass {
                                                     Files.write(Paths.get("/home/hadoop/IdeaProjects/WhereAreMyLikes/src/main/java/out.csv"),
                                                             (latitude + "," + longitude + newline).
                                                                     toString().getBytes(), StandardOpenOption.APPEND);
-                                                    System.out.println("Coordinate sent: "+latitude + "," + longitude);
+                                                    System.out.println("Coordinate saved in csv file: "+latitude + "," + longitude);
                                                 } catch (IOException e) {
                                                     //e.printStackTrace();
                                                 }
