@@ -49,6 +49,20 @@ public class MainClass {
         KafkaConsumer<String, Map<String, Object>> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Collections.singletonList(TOPIC));
 
+        //Para guardar el estado que teniamos sobre las coordenadas que ya han sido enviados
+        //utilizamos la serializacion de objetos java Kryo. Primero intentamos abrir
+        //el fichero con las coordenadas enviadas (si existe, si no partimos de null)
+        //Comento esta parte, ya que esto seria para producción y ahora estoy haciendo pruebas:
+        /**
+         try {
+         input = new Input(new FileInputStream("hdfs://path-in-hdfs/coordinatesSent.bin"));
+         likesSent = kryo.readObject(input, ArrayList.class);
+         input.close();
+         } catch (FileNotFoundException e) {
+         System.out.println("File created");
+         }
+         */
+
         while (!closed.get()) {
             ConsumerRecords<String, Map<String, Object>> records = consumer.poll(100);
             for (ConsumerRecord<String, Map<String, Object>> record : records) {
@@ -111,11 +125,7 @@ public class MainClass {
                                                 }
                                                 coordinatesSent.add(coordinateToSave);
 
-
-
                                             }
-
-
 
                             }
                         }
@@ -127,9 +137,17 @@ public class MainClass {
                         e.printStackTrace();
                     }
 
-
-
+                    //Como lo de guardar el estado es para produccion, comento esto:
             }
+            /**
+             try {
+             output = new Output(new FileOutputStream("hdfs://path-in-hdfs/coordinatesSent.bin"));
+             } catch (FileNotFoundException e) {
+             e.printStackTrace();
+             }
+             kryo.writeObject(output, coordinatesSent);
+             output.close();
+             */
         }
         consumer.close();
     }
