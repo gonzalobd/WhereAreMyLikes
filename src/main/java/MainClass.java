@@ -121,7 +121,7 @@ public class MainClass {
                                                                     toString().getBytes(), StandardOpenOption.APPEND);
                                                     System.out.println("Coordinate sent: "+latitude + "," + longitude);
                                                 } catch (IOException e) {
-                                                    e.printStackTrace();
+                                                    //e.printStackTrace();
                                                 }
                                                 coordinatesSent.add(coordinateToSave);
 
@@ -134,7 +134,7 @@ public class MainClass {
                         }
 
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
 
                     //Como lo de guardar el estado es para produccion, comento esto:
