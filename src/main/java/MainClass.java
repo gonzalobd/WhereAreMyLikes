@@ -149,6 +149,11 @@ public class MainClass {
              kryo.writeObject(output, coordinatesSent);
              output.close();
              */
+            try {
+                Thread.sleep(10000);//hay que dosificar las peticiones, instagram nos permite 5000/hora
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         consumer.close();
     }
